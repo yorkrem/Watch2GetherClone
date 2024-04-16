@@ -1,0 +1,36 @@
+ _format_version: "1.1"
+ _transform: true
+
+ services:
+ - host: host.docker.internal
+   name: account-service
+   port: http://172.22.0.7:5000
+   path: /account
+   protocol: http
+   routes:
+   - name: account-service
+     paths:
+      - /account
+     strip_path: False
+
+ - host: host.docker.internal
+   name: video-service
+   port: 5003
+   path: /video
+   protocol: http
+   routes:
+   - name: video-service
+     paths:
+      - /video
+     strip_path: true
+
+ - host: host.docker.internal
+   name: room-service
+   port: 4000
+   path: /cheese
+   protocol: http
+   routes:
+   - name: room-service
+     paths:
+     - /room
+     strip_path: true
