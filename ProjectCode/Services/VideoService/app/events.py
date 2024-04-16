@@ -5,6 +5,15 @@ from extensions import socketio
 def handle_connect():
     print("Client connected")
 
+@socketio.on("connecton_error")
+def handle_error(err):
+    print("eror when connecting")
+    print(err.req)
+    print(err.code)
+    print(err.message)
+    print(err.context)
+
+
 @socketio.on('data')
 def handle_message(data):
     print('received message' + data)
