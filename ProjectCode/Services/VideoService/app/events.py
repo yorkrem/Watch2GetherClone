@@ -13,14 +13,14 @@ def handle_error(err):
     print(err.message)
     print(err.context)
 
-
-@socketio.on('data')
+@socketio.on('message')
 def handle_message(data):
-    print('received message' + data)
+    print('received message: ' + data)
     send_message()
 
+
 def send_message():
-    socketio.emit("message", "this is me sending from flask", broadcast=True)
+    socketio.emit("messageresponse", "this is me sending from flask", broadcast=True)
     print("message sent")
 
 

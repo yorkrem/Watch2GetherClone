@@ -20,24 +20,24 @@ const useSocketSetup = (): void => {
         socket.on("connect_error", (err) => {
             // the reason of the error, for example "xhr poll error"
             console.log("error message:" + err.message + err.cause);
-          });
+        });
+
+        socket.on("messageresponse", (msg)=>{
+            console.log(msg);
+        })
 
         axios
-        .get("http://localhost:8000/video/hello")
+        .get("http://localhost:8000/hello")
         .then(function (response) {
           console.log(response);
         });
 
-        // Clean up function
-        return () => {
-            if (socket) {
-                socket.disconnect();
-            }
-        };
+        sendMessage()
     }, []);
 
     const sendMessage = () => {
         if (socket) {
+            console.log("message sent")
             socket.emit('message', 'Hello from React!');
         }
     };

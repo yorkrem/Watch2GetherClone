@@ -1,3 +1,3 @@
 from flask_socketio import SocketIO
 
-socketio = SocketIO(cors_allowed_origins="*", cors_credentials=True)
+socketio = SocketIO(cors_allowed_origins="*", cors_credentials=True, server='eventlet')
