@@ -1,36 +1,36 @@
-import React, { useRef, useState } from 'react';
+"use client"
+import React, { useEffect, useRef, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import ReactPlayer from 'react-player/youtube';
+import socket from '../socket/videoService';
 
 function YoutubeVideo ({ youtubelink }) {
     const playerRef = useRef(null);
-    const [volume, setVolume] = useState(0.5)
-    const [seekTo, setSeekTo] = useState(0);
-
-    const [seeking, setSeeking] = useState(false);
     const [skipTimestamp, setSkipTimestamp] = useState(0);
-  
-    const handleProgress = ({ playedSeconds }) => {
-      if (!seeking) {
-        // Handle the progress here
-        console.log('Current Time:', playedSeconds);
-      }
-    };
+    const [playing, setPlaying] = useState(true)
+
+    useEffect(() => {
+        console.log(playing)
+        socket.on("interactionlistener", (msg)=>{
+            console.log("receiving")
+            if(msg == "play"){
+                console.log(playing)
+                if(playing == false){
+                    playVideo() 
+                }
+            }
+        })
+        return () => {
+            socket.off("interactionlistener");
+        };
+    },[playing])
   
     const handleSeek = ({ playedSeconds }) => {
-      setSeeking(true);
-      // Set the timestamp when seeking
-      setSkipTimestamp(playedSeconds);
-      console.log('Current Time 2:', playedSeconds);
-
+        // Handle the progress here
+        console.log('Current Time:', playedSeconds);
+        setSkipTimestamp(playedSeconds)
     };
   
-    const handleSeeked = ({ playedSeconds }) => {
-      setSeeking(false);
-      // Do something after seeking is finished, if needed
-      console.log('Current Time 3:', playedSeconds);
-
-    };
 
     function checkLink(){
         if(youtubelink == ""){
@@ -39,14 +39,25 @@ function YoutubeVideo ({ youtubelink }) {
     }
     checkLink()
 
-    const applySeek = () => {
-        if (playerRef.current) {
-            playerRef.current.getInternalPlayer()?.seekTo(seekTo, 'seconds');
-        }
-    };
 
-    const seek = ( { playedSeconds }) => {
-        console.log("seconds: " + playedSeconds);
+    const sendPlayInteraction = () => {
+        console.log("sending play")
+        socket.emit('video', "play")
+        setPlaying(true);
+    }
+
+    const sendPauseInteraction = () => {
+        console.log("sending pause")
+        socket.emit('video', "pause")
+        setPlaying(false);
+    }
+
+
+    const playVideo = () => {
+        if(playerRef.current){
+            playerRef.current.getInternalPlayer()?.seekTo(skipTimestamp);
+            playerRef.current.getInternalPlayer()?.playVideo()
+        }
     }
 
     return (
@@ -57,13 +68,17 @@ function YoutubeVideo ({ youtubelink }) {
                 width="100%"
                 height="100%" 
                 url={youtubelink}
-                controls
-                onProgress={handleProgress}
+                controls={true}
+                //onProgress={handleProgress}
                 onSeek={handleSeek}
-                onSeeked={handleSeeked}
-                onPlay={()=>{console.log("playing")}}
+                onPlay={sendPlayInteraction}
+                onPause={()=> {setPlaying(false)}}
+                playing={playing}
+                muted={true}
+                //onError={playVideo}
             />}
         </Container>
+      
     );
 }
 

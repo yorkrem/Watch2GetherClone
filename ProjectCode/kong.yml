@@ -8,15 +8,6 @@
    routes:
     - name: video-route
       paths:
-<<<<<<< HEAD
-      - /
-    plugins:
-    - name: cors
-      config:
-        origins:
-        - 'http://localhost:3000'
-        credentials: true
-=======
         - /
       protocols:
         - http
@@ -34,4 +25,3 @@
     #- name: video-service
     #  paths:
     #  - /video
->>>>>>> wsconnection

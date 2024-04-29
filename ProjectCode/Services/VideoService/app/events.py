@@ -18,9 +18,12 @@ def handle_message(data):
     print('received message: ' + data)
     send_message()
 
-
 def send_message():
     socketio.emit("messageresponse", "this is me sending from flask", broadcast=True)
     print("message sent")
 
-
+@socketio.on('video')
+def handle_videointeraction(event):
+    if(event == "play"):
+        socketio.emit("interactionlistener", "play", broadcast=True)
+        print("interaction sent")

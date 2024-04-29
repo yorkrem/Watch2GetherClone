@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import socket from "./videoService";
 import axios from "axios";
 
+
 const useSocketSetup = () => {
     useEffect(() => {
         // Establish WebSocket connection to Kong
@@ -25,14 +26,7 @@ const useSocketSetup = () => {
         socket.on("messageresponse", (msg)=>{
             console.log(msg);
         })
-
-        axios
-        .get("http://localhost:8000/hello")
-        .then(function (response) {
-          console.log(response);
-        });
-
-        sendMessage()
+        //sendMessage()
     }, []);
 
     const sendMessage = () => {
