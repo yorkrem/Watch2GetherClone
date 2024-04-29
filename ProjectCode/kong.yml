@@ -2,12 +2,13 @@
  _transform: true
 
  services:
-  - host: host.docker.internal
-    name: video-service
-    port: 5003
-    routes:
-    - name: video-service
+ - host: host.docker.internal
+   name: video-service
+   port: 5003
+   routes:
+    - name: video-route
       paths:
+<<<<<<< HEAD
       - /
     plugins:
     - name: cors
@@ -15,3 +16,22 @@
         origins:
         - 'http://localhost:3000'
         credentials: true
+=======
+        - /
+      protocols:
+        - http
+        - https
+   plugins:
+   - name: cors
+     config:
+      origins:
+      - 'http://localhost:3000'
+      credentials: true
+        #- host: host.docker.internal
+   # name: video-service
+    #port: 5003
+    #routs:
+    #- name: video-service
+    #  paths:
+    #  - /video
+>>>>>>> wsconnection

@@ -3,7 +3,9 @@ version: '3.9'
 services:
   nextfrontend:
     container_name: frontend
-    image: duusta/frontend
+    build:
+      context: ./NextFrontend/my-app/
+      dockerfile: Dockerfile
     ports:
       - 3000:3000
     networks:
@@ -30,7 +32,9 @@ services:
       
   accountservice:
     container_name: accountservice
-    image: duusta/accountservice
+    build:
+      context: ./Services/AccountService/
+      dockerfile: Dockerfile
     ports:
       - 5000:5000
     depends_on:
@@ -44,7 +48,9 @@ services:
 
   playlistservice:
     container_name: playlistservice
-    image: duusta/playlistservice
+    build:
+      context: ./Services/PlaylistService/
+      dockerfile: Dockerfile
     ports:
       - 5001:5000
     networks:
@@ -52,7 +58,9 @@ services:
 
   roomservice:
     container_name: roomservice
-    image: duusta/roomservice
+    build:
+      context: ./Services/RoomService/
+      dockerfile: Dockerfile
     ports:
       - 5002:5000
     networks:
@@ -60,38 +68,40 @@ services:
   
   videoservice:
     container_name: videoservice
-    image: duusta/videoservice
+    build:
+      context: ./Services/VideoService/
+      dockerfile: Dockerfile
     ports:
       - 5003:5000
     networks:
-      - client
+    - client
 
   adminer:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+    - 8080:8080
 
   kong:
-    container_name: kong_gateway
-    image: kong
-    volumes:
+     container_name: kong_gateway
+     image: kong:latest
+     volumes:
       - ./kong.yml:/usr/local/kong/declarative/kong.yml
-    environment:
-      - KONG_DATABASE=off
-      - KONG_DECLARATIVE_CONFIG=/usr/local/kong/declarative/kong.yml
-      - KONG_PROXY_ACCESS_LOG=/dev/stdout
-      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
-      - KONG_PROXY_ERROR_LOG=/dev/stderr
-      - KONG_ADMIN_ERROR_LOG=/dev/stderr
-      - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl
-    ports:
-      - "8000:8000"
-      - "8443:8443"
-      - "8001:8001"
-      - "8444:8444"
-    networks:
-      - client
+     environment:
+       - KONG_DATABASE=off
+       - KONG_DECLARATIVE_CONFIG=/usr/local/kong/declarative/kong.yml
+       - KONG_PROXY_ACCESS_LOG=/dev/stdout
+       - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+       - KONG_PROXY_ERROR_LOG=/dev/stderr
+       - KONG_ADMIN_ERROR_LOG=/dev/stderr
+       - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl
+     ports:
+       - "8000:8000"
+       - "8443:8443"
+       - "8001:8001"
+       - "8444:8444"
+     networks:
+     - client
 
 networks:
   client:
