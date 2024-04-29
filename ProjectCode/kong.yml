@@ -8,7 +8,7 @@
     routes:
     - name: video-service
       paths:
-      - /video
+      - /
     plugins:
     - name: cors
       config:
