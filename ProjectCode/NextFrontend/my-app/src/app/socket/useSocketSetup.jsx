@@ -1,20 +1,4 @@
 "use client"
-<<<<<<< HEAD
-import { useEffect } from "react";
-import socket from "./videoSocket";
-
-const useSocketSetup = () => {
-    useEffect(() => {
-        socket.connect();
-        socket.on("connect_error", () => {
-            console.log("error when connecting");
-        });
-        return () => {
-            socket.off("connect_error");
-        };
-    }, []);
-};
-=======
 import { useEffect, useState } from "react";
 import socket from "./videoService";
 import axios from "axios";
@@ -59,6 +43,5 @@ const useSocketSetup = () => {
     };
 
 }
->>>>>>> wsconnection
 
 export default useSocketSetup;
