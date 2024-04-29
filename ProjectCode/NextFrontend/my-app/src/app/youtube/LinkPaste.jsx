@@ -1,14 +1,9 @@
-"use client"
 import React, { useState } from 'react';
 
-interface LinkPasteProps {
-    youtubelink: (link: string) => void;
-}
+const LinkPaste = ({ youtubelink }) => {
+    const [input, setInput] = useState('');
 
-const LinkPaste: React.FC<LinkPasteProps> = ({ youtubelink }) => {
-    const [input, setInput] = useState<string>('');
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         youtubelink(input);
         setInput('');
@@ -23,7 +18,7 @@ const LinkPaste: React.FC<LinkPasteProps> = ({ youtubelink }) => {
                     id="youtubelink"
                     name="youtubeurl"
                     value={input}
-                    onChange={e => setInput(e.target.value)}
+                    onChange={(e) => setInput(e.target.value)}
                 />
                 <button className="border-2 border-white" type="submit">Submit</button>
             </form>

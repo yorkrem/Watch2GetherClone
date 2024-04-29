@@ -39,8 +39,6 @@ function YoutubeVideo ({ youtubelink }) {
     }
     checkLink()
 
-
-
     const applySeek = () => {
         if (playerRef.current) {
             playerRef.current.getInternalPlayer()?.seekTo(seekTo, 'seconds');

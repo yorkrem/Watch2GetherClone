@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import socket from "./videoService";
 import axios from "axios";
 
-const useSocketSetup = (): void => {
+const useSocketSetup = () => {
     useEffect(() => {
         // Establish WebSocket connection to Kong
         // Set up event listeners
