@@ -10,13 +10,15 @@ function YoutubeVideo ({ youtubelink }) {
     const [playing, setPlaying] = useState(true)
 
     useEffect(() => {
-        console.log(playing)
-        socket.on("interactionlistener", (msg)=>{
-            console.log("receiving")
-            if(msg == "play"){
-                console.log(playing)
+        socket.on("interactionlistener", (data)=>{
+            if(data["event"] == "play"){
                 if(playing == false){
-                    playVideo() 
+                    playVideo(data["time"]) 
+                }
+            }
+            else if(data["event"] == "pause"){
+                if(playing == true){
+                    pauseVideo(data["time"])
                 }
             }
         })
@@ -26,8 +28,6 @@ function YoutubeVideo ({ youtubelink }) {
     },[playing])
   
     const handleSeek = ({ playedSeconds }) => {
-        // Handle the progress here
-        console.log('Current Time:', playedSeconds);
         setSkipTimestamp(playedSeconds)
     };
   
@@ -41,24 +41,33 @@ function YoutubeVideo ({ youtubelink }) {
 
 
     const sendPlayInteraction = () => {
-        console.log("sending play")
-        socket.emit('video', "play")
+        const Interaction = {
+            event: 'play',
+            time: skipTimestamp
+        };
+        socket.emit('video', Interaction)
         setPlaying(true);
     }
 
     const sendPauseInteraction = () => {
-        console.log("sending pause")
-        socket.emit('video', "pause")
+        socket.emit('video', {event:"pause", time:skipTimestamp})
         setPlaying(false);
     }
 
-
-    const playVideo = () => {
+    const playVideo = (time) => {
         if(playerRef.current){
-            playerRef.current.getInternalPlayer()?.seekTo(skipTimestamp);
+            playerRef.current.getInternalPlayer()?.seekTo(time);
             playerRef.current.getInternalPlayer()?.playVideo()
         }
     }
+
+    const pauseVideo = (time) => {
+        if(playerRef.current){
+            playerRef.current.getInternalPlayer()?.seekTo(time);
+            playerRef.current.getInternalPlayer()?.pauseVideo()
+        }
+    }
+
 
     return (
         <Container className='h-full'>
@@ -69,10 +78,10 @@ function YoutubeVideo ({ youtubelink }) {
                 height="100%" 
                 url={youtubelink}
                 controls={true}
-                //onProgress={handleProgress}
-                onSeek={handleSeek}
+                onProgress={handleSeek}
+                //onSeek={handleSeek}
                 onPlay={sendPlayInteraction}
-                onPause={()=> {setPlaying(false)}}
+                onPause={sendPauseInteraction}
                 playing={playing}
                 muted={true}
                 //onError={playVideo}
