@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/youtube/page.jsx", "src/app/youtube/Nav.jsx", "src/app/youtube/LinkPaste.jsx", "src/app/youtube/Chat.jsx", "src/app/socket/useSocketSetup.jsx", "src/app/socket/videoSocket.jsx", "src/app/socket/useSocketSetup.jsx", "src/app/socket/videoService.jsx", "src/app/youtube/Chat.jsx", "src/app/youtube/LinkPaste.jsx", "src/app/youtube/Nav.jsx", "src/app/youtube/page.jsx"],
   "exclude": ["node_modules"]
 }
