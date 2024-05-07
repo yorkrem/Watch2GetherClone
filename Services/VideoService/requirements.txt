@@ -3,3 +3,4 @@ flask-socketio
 flask-cors
 python-socketio==5.7.2
 eventlet
+pytest
