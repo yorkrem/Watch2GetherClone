@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: roomservice
+  labels:
+    app: roomservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: roomservice
+  template:
+    metadata:
+      labels:
+        app: roomservice
+    spec:
+      containers:
+      - name: roomservice
+        image: k3d-fontys:5000/roomservice:latest
+        ports:
+        - containerPort: 5003
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"

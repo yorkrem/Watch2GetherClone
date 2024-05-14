@@ -14,4 +14,4 @@ def createRoom():
     
 
 if __name__ == '__main__':  # specify your desired port number here
-    app.run(host="0.0.0.0", port=5000, allow_unsafe_werkzeug=True)
+    app.run(host="0.0.0.0", port=5002)
