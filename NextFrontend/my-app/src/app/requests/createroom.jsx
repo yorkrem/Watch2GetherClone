@@ -5,11 +5,13 @@ export const createroom = (roomid, youtubelink) => {
         roomid: roomid,
         currentvideo: youtubelink
     };
-    axios.post('http://localhost:8000/createroom', {
-        method: 'POST',
+    axios.post('http://localhost:8000/room/create', data, {
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+        }
+    }).then((response) => {
+        console.log(response)
+    }).catch((error)=> {
+        console.log(error)
     });
 }
