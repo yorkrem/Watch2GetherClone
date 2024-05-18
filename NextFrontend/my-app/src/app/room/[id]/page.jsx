@@ -4,12 +4,14 @@ import LinkPaste from "./LinkPaste";
 import YoutubeVideo from "./YoutubeVideo";
 import useSocketSetup from "../../socket/useSocketSetup";
 import Chat from "./Chat";
+import {createroom} from "../../requests/createroom"
 
 
 export default function YoutubePage(params){
     const[youtubelink, Setyoutubelink] = useState("")
     const[roomid, setRoomId] = useState(params.params.id)
     useSocketSetup(roomid);
+    createroom(roomid, youtubelink)
     return (
         <>
             <nav className="bg-white border-gray-200 dark:bg-gray-900">
