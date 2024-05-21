@@ -4,20 +4,22 @@ import { Container } from 'react-bootstrap';
 import ReactPlayer from 'react-player/youtube';
 import socket from '../../socket/videoService';
 import {getVideo} from '../../requests/getVideo'
+import {updateroom} from '../../requests/updateroom'
 
 function YoutubeVideo ({ youtubelink , roomid}) {
     const playerRef = useRef(null);
     const [skipTimestamp, setSkipTimestamp] = useState(0);
     const [playing, setPlaying] = useState(true)
-    const [youtubeurl, Setyoutubeurl] = useState("https://www.youtube.com/watch?v=KJwYBJMSbPI")
+    const [youtubeurl, Setyoutubeurl] = useState("")
 
     useEffect(()=> {
-        checkLink()
+       checkLink()
     },[])
 
-    useEffect(()=>{
-        Setyoutubeurl(youtubelink)
+    useEffect(() => {
+        linkInserted()
     }, [youtubelink])
+
 
     useEffect(() => {
         socket.on("interactionlistener", (data)=>{
@@ -40,15 +42,27 @@ function YoutubeVideo ({ youtubelink , roomid}) {
     const handleSeek = ({ playedSeconds }) => {
         setSkipTimestamp(playedSeconds)
     };
-  
-    function checkLink(){
-        var roomlink =  getVideo(roomid)
-        console.log(youtubelink)
-        if(roomlink != null){
-            Setyoutubeurl(roomlink)
+
+    const linkInserted = () => {
+        if(youtubelink != ""){
+            Setyoutubeurl(youtubelink)
+            updateroom(roomid, youtubelink)
         }
     }
-    checkLink()
+  
+    const checkLink = async () => {
+        try {
+            const roomlink = await getVideo(roomid);
+            console.log(roomlink);
+            if (roomlink != null) {
+                console.log("setting url " + roomlink);
+                Setyoutubeurl(roomlink);
+            }
+        } catch (error) {
+            console.error('Error fetching video:', error);
+        }
+    }
+    
 
     const sendPlayInteraction = () => {
         socket.emit('video', {event:"play", time:skipTimestamp, room:roomid})
@@ -74,10 +88,9 @@ function YoutubeVideo ({ youtubelink , roomid}) {
         }
     }
 
-
     return (
         <Container className='h-full'>
-            {youtubelink && 
+            {
                 <ReactPlayer
                 ref={playerRef}
                 width="100%"
