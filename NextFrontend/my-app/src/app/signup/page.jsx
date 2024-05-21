@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react';
 import styles from '../signup/Signup.module.css';
+import { register } from '../requests/signup/register';
 
 export default function Signup() {
     const [formData, setFormData] = useState({
@@ -19,9 +20,9 @@ export default function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        register(formData)
         // Handle form submission (e.g., send data to your API)
-        console.log('Form data submitted:', formData);
-        // Example: fetch('/api/signup', { method: 'POST', body: JSON.stringify(formData) });
+        
     };
 
     return (
