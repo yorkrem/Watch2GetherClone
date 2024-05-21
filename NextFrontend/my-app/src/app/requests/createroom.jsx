@@ -3,7 +3,7 @@ import axios from "axios";
 export const createroom = (roomid, youtubelink) => {
     const data = {
         roomid: roomid,
-        currentvideo: youtubelink
+        currentvideo: "https://www.youtube.com/watch?v=KJwYBJMSbPI"
     };
     axios.post('http://localhost:8000/room/create', data, {
         headers: {
