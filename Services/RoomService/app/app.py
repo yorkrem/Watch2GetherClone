@@ -11,7 +11,7 @@ def createRoom():
     data = request.get_json()
     roomid = data.get('roomid')
     currentvideo = data.get('currentvideo')
-    print("this is waht i receive in post", roomid)
+    print("this is what i receive in post", roomid)
     print("this is the video i receive", currentvideo)
     room = Room(roomId=roomid, currentVideo=currentvideo)
     Roommanager.addRoom(room=room)
@@ -21,12 +21,23 @@ def createRoom():
 def getVideo():
     roomid = request.args.get('roomid')
     room = Roommanager.getRoom(roomid)
-    print(roomid)
-    print(room)
+    print("getting room " + str(room.getVideo()))
     if room is not None:
         return str(room.getVideo())
     else:
         return ({'error': 'Room not found'}), 404
+
+
+@app.route('/update', methods= ['PUT'])
+def updateRoom():
+    data = request.get_json()
+    roomid = data.get('roomid')
+    currentvideo = data.get('currentvideo')
+    room = Roommanager.getRoom(roomid)
+    room.updateVideo(currentvideo)
+    print("room after update " + room.getVideo())
+    return "room updated " + currentvideo
+
 
 
 if __name__ == '__main__':  # specify your desired port number here
