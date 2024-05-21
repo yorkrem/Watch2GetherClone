@@ -1,5 +1,6 @@
 "use client"
 import { useRouter } from 'next/navigation';
+import {createroom} from "../app/requests/createroom"
 
 export default function Home() {
   const router = useRouter();
@@ -14,14 +15,16 @@ export default function Home() {
       return result;
   }
 
-  const createRoom = () => {
+  const generateRoom = () => {
       const id = generateRandomString()
+      createroom(id)
       router.push(`/room/${id}`);
+   
   }
 
   return (
     <>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={createRoom}>Create Room</button>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generateRoom}>Create Room</button>
     </>
   );
 }
