@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextfrontend
+  labels:
+    app: nextfrontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextfrontend
+  template:
+    metadata:
+      labels:
+        app: nextfrontend
+    spec:
+      containers:
+      - name: nextfrontend
+        image: k3d-fontys:5000/nextfrontend:latest
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"

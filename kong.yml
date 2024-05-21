@@ -24,7 +24,7 @@
     routes:
       - name: room-route
         paths:
-          - /createroom
+          - /room
         protocols:
           - http
           - https

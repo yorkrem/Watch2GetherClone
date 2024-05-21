@@ -3,13 +3,15 @@ import axios from "axios";
 export const createroom = (roomid, youtubelink) => {
     const data = {
         roomid: roomid,
-        currentvideo: youtubelink
+        currentvideo: "https://www.youtube.com/watch?v=KJwYBJMSbPI"
     };
-    axios.post('http://localhost:8000/createroom', {
-        method: 'POST',
+    axios.post('http://localhost:8000/room/create', data, {
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+        }
+    }).then((response) => {
+        console.log(response)
+    }).catch((error)=> {
+        console.log(error)
     });
 }

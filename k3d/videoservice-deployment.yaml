@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: videoservice
+  labels:
+    app: videoservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: videoservice
+  template:
+    metadata:
+      labels:
+        app: videoservice
+    spec:
+      containers:
+      - name: videoservice
+        image: k3d-fontys:5000/videoservice:latest
+        ports:
+        - containerPort: 5003
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"
