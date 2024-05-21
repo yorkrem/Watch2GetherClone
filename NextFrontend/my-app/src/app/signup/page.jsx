@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react';
-import styles from '../styles/Signup.module.css';
+import styles from '../signup/Signup.module.css';
 
 export default function Signup() {
     const [formData, setFormData] = useState({
