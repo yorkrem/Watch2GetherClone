@@ -3,11 +3,23 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import ReactPlayer from 'react-player/youtube';
 import socket from '../../socket/videoService';
+import {getVideo} from '../../requests/getVideo'
+import {updateroom} from '../../requests/updateroom'
 
 function YoutubeVideo ({ youtubelink , roomid}) {
     const playerRef = useRef(null);
     const [skipTimestamp, setSkipTimestamp] = useState(0);
     const [playing, setPlaying] = useState(true)
+    const [youtubeurl, Setyoutubeurl] = useState("")
+
+    useEffect(()=> {
+       checkLink()
+    },[])
+
+    useEffect(() => {
+        linkInserted()
+    }, [youtubelink])
+
 
     useEffect(() => {
         socket.on("interactionlistener", (data)=>{
@@ -30,15 +42,27 @@ function YoutubeVideo ({ youtubelink , roomid}) {
     const handleSeek = ({ playedSeconds }) => {
         setSkipTimestamp(playedSeconds)
     };
-  
 
-    function checkLink(){
-        if(youtubelink == ""){
-            youtubelink = "https://www.youtube.com/watch?v=zGSqG0vkBxo"
+    const linkInserted = () => {
+        if(youtubelink != ""){
+            Setyoutubeurl(youtubelink)
+            updateroom(roomid, youtubelink)
         }
     }
-    checkLink()
-
+  
+    const checkLink = async () => {
+        try {
+            const roomlink = await getVideo(roomid);
+            console.log(roomlink);
+            if (roomlink != null) {
+                console.log("setting url " + roomlink);
+                Setyoutubeurl(roomlink);
+            }
+        } catch (error) {
+            console.error('Error fetching video:', error);
+        }
+    }
+    
 
     const sendPlayInteraction = () => {
         socket.emit('video', {event:"play", time:skipTimestamp, room:roomid})
@@ -64,15 +88,14 @@ function YoutubeVideo ({ youtubelink , roomid}) {
         }
     }
 
-
     return (
         <Container className='h-full'>
-            {youtubelink && 
+            {
                 <ReactPlayer
                 ref={playerRef}
                 width="100%"
                 height="100%" 
-                url={youtubelink}
+                url={youtubeurl}
                 controls={true}
                 onProgress={handleSeek}
                 //onSeek={handleSeek}

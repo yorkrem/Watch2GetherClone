@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kong
+  labels:
+    app: kong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kong
+  template:
+    metadata:
+      labels:
+        app: kong
+    spec:
+      containers:
+      - name: kong
+        image: k3d-fontys:5000/kong:latest
+        ports:
+        - containerPort: 8000
+        - containerPort: 8443
+        env:
+        - name: KONG_DATABASE
+          value: "off"
+        - name: KONG_DECLARATIVE_CONFIG
+          value: /etc/kong/kong.yml
+        volumeMounts:
+        - name: kong-config
+          mountPath: /etc/kong
+          readOnly: true
+      volumes:
+      - name: kong-config
+        configMap:
+          name: kong-config
