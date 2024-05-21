@@ -1,4 +1,4 @@
-// pages/signup.js
+"use client"
 import { useState } from 'react';
 import styles from '../styles/Signup.module.css';
 
