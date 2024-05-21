@@ -1,6 +1,7 @@
-from _init_ import create_app, socketio
-from events import send_message
+from flask import request, make_response
+from _init_ import create_app
 
 app = create_app()
 
-socketio.run(app, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)
+if __name__ == '__main__':  # specify your desired port number here
+    app.run(host="0.0.0.0", port=5002)
