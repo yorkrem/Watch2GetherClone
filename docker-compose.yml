@@ -18,7 +18,9 @@ services:
     volumes:
       - ./pData:/var/lib/postgresql/data
     environment:
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
+      POSTGRES_DB: watch2gether
     ports:
       - 5432:5432
     healthcheck:      
@@ -36,7 +38,7 @@ services:
       context: ./Services/AccountService/
       dockerfile: Dockerfile
     ports:
-      - 5000:5000
+      - 5001:5001
     depends_on:
       accountdb:
         condition: service_healthy
@@ -52,7 +54,7 @@ services:
       context: ./Services/ChatService/
       dockerfile: Dockerfile
     ports:
-      - 5001:5001
+      - 5000:5000
     networks:
       - client
 
@@ -81,6 +83,8 @@ services:
     restart: always
     ports:
     - 8080:8080
+    networks:
+      - db-network
 
   kong:
      container_name: kong_gateway
