@@ -2,7 +2,7 @@ name: Build & Deploy
  
 on:
   workflow_run:
-    workflows: ["node.js, python-app"]
+    workflows: ["node.js.yml", "python-app.yml"]
     types:
       - completed
   workflow_dispatch:  
