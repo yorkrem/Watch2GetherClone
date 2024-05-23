@@ -46,13 +46,13 @@ services:
       - client
       - db-network
 
-  playlistservice:
-    container_name: playlistservice
+  chatservice:
+    container_name: chatservice
     build:
-      context: ./Services/PlaylistService/
+      context: ./Services/ChatService/
       dockerfile: Dockerfile
     ports:
-      - 5001:5000
+      - 5001:5001
     networks:
       - client
 
@@ -62,7 +62,7 @@ services:
       context: ./Services/RoomService/
       dockerfile: Dockerfile
     ports:
-      - 5002:5000
+      - 5002:5002
     networks:
       - client
   
@@ -72,7 +72,7 @@ services:
       context: ./Services/VideoService/
       dockerfile: Dockerfile
     ports:
-      - 5003:5000
+      - 5003:5003
     networks:
     - client
 
