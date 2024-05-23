@@ -2,7 +2,7 @@ name: Build & Deploy
  
 on:
   workflow_run:
-    workflows: ["Test"]
+    workflows: ["node.js, python-app"]
     types:
       - completed
  
