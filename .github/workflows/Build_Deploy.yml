@@ -17,9 +17,27 @@ jobs:
     - uses: azure/docker-login@v2
       with:
         login-server: watch2getherimages.azurecr.io 
-        username: ${{ secrets.ACR_REGISTRY_USERNAME }}
-        password: ${{ secrets.ACR_REGISTRY_PASSWORD }}
-    - name: build image
-      run: docker build . -t watch2getherimages.azurecr.io/frontend
-    - name: deploy
-      run: docker push watch2getherimages.azurecr.io/frontend
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - name: Build and Push Account Service Image
+      run: |
+        docker build -f ../Services/AccountService/Dockerfile -t watch2getherimages.azurecr.io/accountservice ../Services/AccountService
+        docker push watch2getherimages.azurecr.io/accountservice
+    - name: Build and Push Video Service Image
+      run: |
+       docker build -f ../Services/VideoService/Dockerfile -t watch2getherimages.azurecr.io/videoservice ../Services/VideoService
+       docker push watch2getherimages.azurecr.io/videoservice
+    - name: Build and Push Room Service Image
+      run: |
+       docker build -f ../Services/RoomService/Dockerfile -t watch2getherimages.azurecr.io/roomservice ../Services/RoomService
+       docker push watch2getherimages.azurecr.io/roomservice
+    - name: Build and Push Chat Service Image
+      run: |
+       docker build -f ../Services/ChatService/Dockerfile -t watch2getherimages.azurecr.io/chatservice ../Services/ChatService
+       docker push watch2getherimages.azurecr.io/chatservice
+    - name: Build and Push Next Frontend Image
+      run: |
+       docker build -f ../NextFrontend/my-app/Dockerfile -t watch2getherimages.azurecr.io/nextfrontend ../NextFrontend/my-app
+       docker push watch2getherimages.azurecr.io/nextfrontend
+
+
