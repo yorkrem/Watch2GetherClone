@@ -27,19 +27,23 @@ jobs:
         docker push watch2getherimages.azurecr.io/accountservice
     - name: Build and Push Video Service Image
       run: |
-       docker build -f ../Services/VideoService/Dockerfile -t watch2getherimages.azurecr.io/videoservice ../Services/VideoService
+       cd Services/VideoService
+       docker build -f Dockerfile -t watch2getherimages.azurecr.io/videoservice .
        docker push watch2getherimages.azurecr.io/videoservice
     - name: Build and Push Room Service Image
       run: |
-       docker build -f ../Services/RoomService/Dockerfile -t watch2getherimages.azurecr.io/roomservice ../Services/RoomService
+       cd Services/RoomService
+       docker build -f Dockerfile -t watch2getherimages.azurecr.io/roomservice .
        docker push watch2getherimages.azurecr.io/roomservice
     - name: Build and Push Chat Service Image
       run: |
-       docker build -f ../Services/ChatService/Dockerfile -t watch2getherimages.azurecr.io/chatservice ../Services/ChatService
+       cd Services/ChatService
+       docker build -f Dockerfile -t watch2getherimages.azurecr.io/chatservice .
        docker push watch2getherimages.azurecr.io/chatservice
     - name: Build and Push Next Frontend Image
       run: |
-       docker build -f ../NextFrontend/my-app/Dockerfile -t watch2getherimages.azurecr.io/nextfrontend ../NextFrontend/my-app
+       cd NextFrontend/my-app
+       docker build -f Dockerfile -t watch2getherimages.azurecr.io/nextfrontend .
        docker push watch2getherimages.azurecr.io/nextfrontend
 
 
