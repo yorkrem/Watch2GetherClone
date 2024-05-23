@@ -1,0 +1,49 @@
+name: Build & Deploy
+ 
+on:
+  workflow_run:
+    workflows: ["node.js, python-app"]
+    types:
+      - completed
+  workflow_dispatch:  
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - uses: actions/checkout@v4
+    - uses: azure/docker-login@v2
+      with:
+        login-server: watch2getherimages.azurecr.io 
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - name: Build and Push Account Service Image
+      run: |
+        cd Services/AccountService
+        docker build -f Dockerfile -t watch2getherimages.azurecr.io/accountservice .
+        docker push watch2getherimages.azurecr.io/accountservice
+    - name: Build and Push Video Service Image
+      run: |
+       cd Services/VideoService
+       docker build -f Dockerfile -t watch2getherimages.azurecr.io/videoservice .
+       docker push watch2getherimages.azurecr.io/videoservice
+    - name: Build and Push Room Service Image
+      run: |
+       cd Services/RoomService
+       docker build -f Dockerfile -t watch2getherimages.azurecr.io/roomservice .
+       docker push watch2getherimages.azurecr.io/roomservice
+    - name: Build and Push Chat Service Image
+      run: |
+       cd Services/ChatService
+       docker build -f Dockerfile -t watch2getherimages.azurecr.io/chatservice .
+       docker push watch2getherimages.azurecr.io/chatservice
+    - name: Build and Push Next Frontend Image
+      run: |
+       cd NextFrontend/my-app
+       docker build -f Dockerfile -t watch2getherimages.azurecr.io/nextfrontend .
+       docker push watch2getherimages.azurecr.io/nextfrontend
+
+
