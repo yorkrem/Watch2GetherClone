@@ -22,7 +22,8 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - name: Build and Push Account Service Image
       run: |
-        docker build -f ../Services/AccountService/Dockerfile -t watch2getherimages.azurecr.io/accountservice
+        cd Services/AccountService
+        docker build -f Dockerfile -t watch2getherimages.azurecr.io/accountservice .
         docker push watch2getherimages.azurecr.io/accountservice
     - name: Build and Push Video Service Image
       run: |
