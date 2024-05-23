@@ -5,6 +5,7 @@ on:
     workflows: ["node.js, python-app"]
     types:
       - completed
+  workflow_dispatch:  
  
 jobs:
   build:
