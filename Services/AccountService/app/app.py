@@ -1,10 +1,9 @@
 from objects.account import Account
 from managers.AccountManager import AccountManager
 from flask import request, make_response
-from _init_ import create_app, db
+from _init_ import app, db
 from extensions.hash import checkPassword
 
-app = create_app()
 accountManager = AccountManager()
 
 @app.route('/create', methods= ['POST'])
@@ -17,7 +16,7 @@ def createAccount():
     accountManager.addAccount(account=account)
     db.session.add(account)
     db.session.commit()
-    return "account created " + str(account.getUsername())
+    return str(account.getUsername())
 
 @app.route('/login', methods= ['POST'])
 def login():
@@ -25,9 +24,13 @@ def login():
     username = data.get('username')
     password = data.get('password')
     account = accountManager.getAccount(username=username)
-    correctPassword = checkPassword(account=account, password=password)
-    if account is not None and correctPassword:
-        return account
+    if account is not None:
+        if checkPassword(account=account, password=password):
+            return str(account.getUsername())
+        else:
+            return "The password you have entered is not correct"
+    else:
+        return "Account does not exist"
 
 if __name__ == '__main__':  # specify your desired port number here
     app.run(host="0.0.0.0", port=5001)
