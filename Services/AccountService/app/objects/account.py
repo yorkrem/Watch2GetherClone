@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from _init_ import db
+from extensions.hash import hashPassword
 
 class Account(db.Model):
     __tablename__ = 'accounts'
@@ -11,7 +12,11 @@ class Account(db.Model):
     def __init__(self, username, email, password):
         self.username = username
         self.email = email
-        self.password = password
+        self.password = hashPassword(password=password)
 
     def getUsername(self):
         return self.username
+    
+    def getPassword(self):
+        return self.password
+    
