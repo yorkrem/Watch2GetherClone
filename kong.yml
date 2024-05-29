@@ -34,10 +34,19 @@
         origins:
         - 'http://localhost:3000'
         credentials: true
-        #- host: host.docker.internal
-   # name: video-service
-    #port: 5003
-    #routs:
-    #- name: video-service
-    #  paths:
-    #  - /video
+  - host: host.docker.internal
+    name: account-service
+    port: 5001
+    routes:
+      - name: account-route
+        paths:
+          - /account
+        protocols:
+          - http
+          - https
+    plugins:
+    - name: cors
+      config:
+        origins:
+        - 'http://localhost:3000'
+        credentials: true
