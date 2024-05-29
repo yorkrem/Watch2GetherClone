@@ -24,7 +24,7 @@ services:
     ports:
       - 5432:5432
     healthcheck:      
-      test: ["CMD-SHELL", "pg_isready -U postgres -d users -t 1"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d watch2gether -t 1"]
       interval: 10s
       timeout: 10s
       retries: 10
