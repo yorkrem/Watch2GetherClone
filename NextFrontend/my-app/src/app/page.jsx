@@ -26,10 +26,15 @@ export default function Home() {
       router.push('/signup')
   }
 
+  const signinPage = () => {
+    router.push('/signin')
+}
+
   return (
     <>
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generateRoom}>Create Room</button>
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={signUpPage}>Sign up</button>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={signinPage}>Sign in</button>
     </>
   );
 }
