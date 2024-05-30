@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { signInWithEmailAndPassword, auth } from '../config/firebaseconfig';
 import { Login } from '../requests/account/login'
-import {savetoken} from '../utils/localStorage'
+import {saveToken} from '../utils/localStorage'
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -14,8 +14,9 @@ const SignIn = () => {
       const user = userCredential.user;
       // Get the ID token
       const idToken = await user.getIdToken();
+      console.log(idToken)
       await Login(idToken)
-      savetoken(idToken)
+      saveToken(idToken)
       /*if(response.status == 200)
         console.log("Authenticated successfully: ", response)*/
     } catch (error) {

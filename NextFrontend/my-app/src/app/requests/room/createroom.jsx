@@ -1,16 +1,18 @@
 import axios from "axios";
+import { getToken } from "../../utils/localStorage";
 
-export const createroom = (roomid, youtubelink) => {
+export const createroom = async (roomid) => {
     const data = {
         roomid: roomid,
         currentvideo: "https://www.youtube.com/watch?v=KJwYBJMSbPI"
     };
-    axios.post('http://localhost:8000/room/create', data, {
+    return axios.post('http://localhost:8000/room/create', data, {
         headers: {
+            'Authorization': "Bearer " + getToken(),
             'Content-Type': 'application/json'
         }
     }).then((response) => {
-        console.log(response)
+        return response
     }).catch((error)=> {
         console.log(error)
     });
