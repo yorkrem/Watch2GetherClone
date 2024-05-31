@@ -1,3 +1,4 @@
+from authorization.authorization import check_auth
 from flask import request, make_response
 from _init_ import create_app
 from objects.Room import Room
@@ -7,6 +8,7 @@ app = create_app()
 Roommanager = RoomManager()
 
 @app.route('/create', methods= ['POST'])
+@check_auth 
 def createRoom():
     data = request.get_json()
     roomid = data.get('roomid')
@@ -18,6 +20,7 @@ def createRoom():
     return "room created"
     
 @app.route('/getVideo', methods= ['GET'])
+@check_auth 
 def getVideo():
     roomid = request.args.get('roomid')
     room = Roommanager.getRoom(roomid)
@@ -29,6 +32,7 @@ def getVideo():
 
 
 @app.route('/update', methods= ['PUT'])
+@check_auth 
 def updateRoom():
     data = request.get_json()
     roomid = data.get('roomid')

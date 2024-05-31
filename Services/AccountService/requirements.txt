@@ -8,4 +8,4 @@ flask_sqlalchemy
 greenlet==3.0.3 
 psycopg2-binary==2.9.9 
 typing-extensions==4.11.0
-bcrypt
+firebase-admin

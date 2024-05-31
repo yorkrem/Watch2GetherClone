@@ -3,9 +3,7 @@ version: '3.9'
 services:
   nextfrontend:
     container_name: frontend
-    build:
-      context: ./NextFrontend/my-app/
-      dockerfile: Dockerfile
+    image: watch2getherimages.azurecr.io/nextfrontend
     ports:
       - 3000:3000
     networks:
@@ -24,7 +22,7 @@ services:
     ports:
       - 5432:5432
     healthcheck:      
-      test: ["CMD-SHELL", "pg_isready -U postgres -d users -t 1"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d watch2gether -t 1"]
       interval: 10s
       timeout: 10s
       retries: 10
@@ -34,9 +32,7 @@ services:
       
   accountservice:
     container_name: accountservice
-    build:
-      context: ./Services/AccountService/
-      dockerfile: Dockerfile
+    image: watch2getherimages.azurecr.io/accountservice
     ports:
       - 5001:5001
     depends_on:
@@ -50,9 +46,7 @@ services:
 
   chatservice:
     container_name: chatservice
-    build:
-      context: ./Services/ChatService/
-      dockerfile: Dockerfile
+    image: watch2getherimages.azurecr.io/chatservice
     ports:
       - 5000:5000
     networks:
@@ -60,9 +54,7 @@ services:
 
   roomservice:
     container_name: roomservice
-    build:
-      context: ./Services/RoomService/
-      dockerfile: Dockerfile
+    image: watch2getherimages.azurecr.io/roomservice
     ports:
       - 5002:5002
     networks:
@@ -70,9 +62,7 @@ services:
   
   videoservice:
     container_name: videoservice
-    build:
-      context: ./Services/VideoService/
-      dockerfile: Dockerfile
+    image: watch2getherimages.azurecr.io/videoservice
     ports:
       - 5003:5003
     networks:

@@ -1,15 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const login = (formData) => {
-    return axios.post('http://localhost:8000/account/login', formData, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then((response) => {
-        localStorage.setItem('username', response.data)
-        return response.status === 200
-    }).catch((error)=> {
+export const Login = async (token) => {
+    // Send token to Flask backend for verification
+    return await axios.post('http://localhost:8000/account/login', { idToken: token })
+    .then((res) => {
+        console.log(res)
+        return res
+    })
+    .catch((error)=> {
         console.log(error)
-        return false
     });
 }
+
