@@ -27,6 +27,16 @@ body{
   height: 100%;
 }
 
+.message.self {
+  text-align: right;
+  color: blue;
+}
+
+.message.other {
+  text-align: left;
+  color: green;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

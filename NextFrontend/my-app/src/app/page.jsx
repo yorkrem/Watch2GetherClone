@@ -37,9 +37,11 @@ export default function Home() {
     try {
       await signOut(auth);
       removeToken()
+      localStorage.removeItem("username");
       console.log('User signed out successfully');
     } catch (error) {
       console.error('Error signing out:', error);
+
     }
   }
   return (

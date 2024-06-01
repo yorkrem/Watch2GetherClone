@@ -8,47 +8,20 @@ services:
       - 3000:3000
     networks:
       - client
-
-  accountdb:
-    container_name: accountdb
-    image: postgres
-    restart: always  
-    volumes:
-      - ./pData:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: example
-      POSTGRES_DB: watch2gether
-    ports:
-      - 5432:5432
-    healthcheck:      
-      test: ["CMD-SHELL", "pg_isready -U postgres -d watch2gether -t 1"]
-      interval: 10s
-      timeout: 10s
-      retries: 10
-      start_period: 10s
-    networks:
-      - db-network
       
   accountservice:
     container_name: accountservice
     image: watch2getherimages.azurecr.io/accountservice
     ports:
-      - 5001:5001
-    depends_on:
-      accountdb:
-        condition: service_healthy
-    links:
-      - accountdb
+      - 5000:5000
     networks:
       - client
-      - db-network
 
   chatservice:
     container_name: chatservice
     image: watch2getherimages.azurecr.io/chatservice
     ports:
-      - 5000:5000
+      - 5001:5001
     networks:
       - client
 
@@ -67,14 +40,6 @@ services:
       - 5003:5003
     networks:
     - client
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-    - 8080:8080
-    networks:
-      - db-network
 
   kong:
      container_name: kong_gateway
@@ -100,7 +65,6 @@ services:
 networks:
   client:
     driver: bridge
-  db-network:
   
 
     

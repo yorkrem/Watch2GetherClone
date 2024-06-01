@@ -1,6 +1,6 @@
 flask
 flask-socketio
 flask-cors
-y
+python-socketio==5.7.2
 eventlet
 pytest

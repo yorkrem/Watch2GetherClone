@@ -1,9 +1,13 @@
 import axios from "axios";
+import { getToken } from "../../utils/localStorage";
 
 export const getVideo = (roomid) => {
     return axios.get('http://localhost:8000/room/getVideo', {
         params: {
             roomid: roomid
+        },
+        headers: {
+            'Authorization': "Bearer " + getToken(),
         }
     }).then((response) => {
         console.log(response);
