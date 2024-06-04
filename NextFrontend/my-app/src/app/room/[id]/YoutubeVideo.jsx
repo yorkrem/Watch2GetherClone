@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import ReactPlayer from 'react-player/youtube';
 import socket from '../../socket/videoService';
-import {getVideo} from '../../requests/getVideo'
-import {updateroom} from '../../requests/updateroom'
+import {getVideo} from '../../requests/room/getVideo'
+import {updateroom} from '../../requests/room/updateroom'
 
 function YoutubeVideo ({ youtubelink , roomid}) {
     const playerRef = useRef(null);

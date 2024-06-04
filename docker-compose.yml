@@ -10,25 +10,6 @@ services:
       - 3000:3000
     networks:
       - client
-
-  accountdb:
-    container_name: accountdb
-    image: postgres
-    restart: always  
-    volumes:
-      - ./pData:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: example
-    ports:
-      - 5432:5432
-    healthcheck:      
-      test: ["CMD-SHELL", "pg_isready -U postgres -d users -t 1"]
-      interval: 10s
-      timeout: 10s
-      retries: 10
-      start_period: 10s
-    networks:
-      - db-network
       
   accountservice:
     container_name: accountservice
@@ -37,24 +18,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5000:5000
-    depends_on:
-      accountdb:
-        condition: service_healthy
-    links:
-      - accountdb
     networks:
       - client
       - db-network
-
-  chatservice:
-    container_name: chatservice
-    build:
-      context: ./Services/ChatService/
-      dockerfile: Dockerfile
-    ports:
-      - 5001:5001
-    networks:
-      - client
 
   roomservice:
     container_name: roomservice
@@ -76,11 +42,6 @@ services:
     networks:
     - client
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-    - 8080:8080
 
   kong:
      container_name: kong_gateway

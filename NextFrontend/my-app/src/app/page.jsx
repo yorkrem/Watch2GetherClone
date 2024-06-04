@@ -1,6 +1,8 @@
 "use client"
 import { useRouter } from 'next/navigation';
-import {createroom} from "../app/requests/createroom"
+import {createroom} from "./requests/room/createroom"
+import { signOut, auth} from '../app/config/firebaseconfig';
+import { removeToken } from './utils/localStorage';
 
 export default function Home() {
   const router = useRouter();
@@ -15,16 +17,39 @@ export default function Home() {
       return result;
   }
 
-  const generateRoom = () => {
+  const generateRoom = async () => {
       const id = generateRandomString()
-      createroom(id)
-      router.push(`/room/${id}`);
-   
+      const response = await createroom(id)
+      console.log(response)
+      if(response)
+        router.push(`/room/${id}`);
   }
 
+  const signUpPage = () => {
+      router.push('/signup')
+  }
+
+  const signinPage = () => {
+    router.push('/signin')
+  }
+
+  const signout = async () => {
+    try {
+      await signOut(auth);
+      removeToken()
+      localStorage.removeItem("username");
+      console.log('User signed out successfully');
+    } catch (error) {
+      console.error('Error signing out:', error);
+
+    }
+  }
   return (
     <>
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={generateRoom}>Create Room</button>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={signUpPage}>Sign up</button>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={signinPage}>Sign in</button>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={signout}>Sign out</button>
     </>
   );
 }
