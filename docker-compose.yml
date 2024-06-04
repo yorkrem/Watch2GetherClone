@@ -3,7 +3,9 @@ version: '3.9'
 services:
   nextfrontend:
     container_name: frontend
-    image: watch2getherimages.azurecr.io/nextfrontend
+    build:
+      context: ./NextFrontend/my-app/
+      dockerfile: Dockerfile
     ports:
       - 3000:3000
     networks:
@@ -11,23 +13,20 @@ services:
       
   accountservice:
     container_name: accountservice
-    image: watch2getherimages.azurecr.io/accountservice
+    build:
+      context: ./Services/AccountService/
+      dockerfile: Dockerfile
     ports:
       - 5000:5000
     networks:
       - client
-
-  chatservice:
-    container_name: chatservice
-    image: watch2getherimages.azurecr.io/chatservice
-    ports:
-      - 5001:5001
-    networks:
-      - client
+      - db-network
 
   roomservice:
     container_name: roomservice
-    image: watch2getherimages.azurecr.io/roomservice
+    build:
+      context: ./Services/RoomService/
+      dockerfile: Dockerfile
     ports:
       - 5002:5002
     networks:
@@ -35,11 +34,14 @@ services:
   
   videoservice:
     container_name: videoservice
-    image: watch2getherimages.azurecr.io/videoservice
+    build:
+      context: ./Services/VideoService/
+      dockerfile: Dockerfile
     ports:
       - 5003:5003
     networks:
     - client
+
 
   kong:
      container_name: kong_gateway
@@ -65,7 +67,7 @@ services:
 networks:
   client:
     driver: bridge
-  
+  db-network:
 
     
   
