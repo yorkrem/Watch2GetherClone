@@ -23,14 +23,6 @@ def on_leave(data):
     room = data['room']
     leave_room(room)
 
-@socketio.on('message')
-def handle_message(data):
-    print('received message: ' + data)
-    send_message()
-
-def send_message():
-    socketio.emit("messageresponse", "this is me sending from flask", broadcast=True)
-
 @socketio.on('video')
 def handle_videointeraction(data):
     interactiondata = {
@@ -43,3 +35,14 @@ def handle_videointeraction(data):
         print("interaction sent")
     elif(data['event'] == "pause"):
         socketio.emit("interactionlistener", interactiondata, room=room, broadcast=True)
+
+@socketio.on('chat')
+def handle_message(data):
+    room = data["room"]
+    message = data["msg"]
+    username = data["username"]
+    newMessage = {
+        "message": message,
+        "username": username
+    }
+    socketio.emit("chatlistener", newMessage, room=room, broadcast=True)

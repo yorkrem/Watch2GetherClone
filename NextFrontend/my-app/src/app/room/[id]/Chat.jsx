@@ -1,13 +1,56 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
+import socket from '../../socket/videoService';
 
+export default function Chat({ roomid , username}) {
+    const [message, setMessage] = useState('');
+    const [messages, setMessages] = useState([]);
 
+    useEffect(() => {
+        // Listen for incoming messages
+        socket.on("chatlistener", (newMessage) => {
+            console.log("receiving message " + newMessage.username)
+            console.log(username)
+            if(newMessage.username != localStorage.getItem("username")){
+                postMessage({ msg: newMessage.message, username: newMessage.username ,fromSelf: false });
+            }
+        });
+        // Cleanup the listener on component unmount
+        return () => {
+            socket.off("chatlistener");
+        };
+    }, []);
 
-export default function Chat({roomid}) {
-    return(
+    // Event handler for button click
+    const handleSendMessage = (event) => {
+        event.preventDefault();
+        if (message.trim() !== '') {
+            socket.emit('chat', { msg: message, username: username, room: roomid });
+            postMessage({ msg: message, username: username,fromSelf: true });
+            setMessage('');
+        }
+    };
+
+    // Event handler for textarea change
+    const handleChange = (event) => {
+        setMessage(event.target.value);
+    };
+
+    // Add the new message to the list of messages
+    const postMessage = (newMessage) => {
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+    };
+
+    return (
         <Container className='relative h-full'>
-            <div className='border-2 border-black h-5/6'></div>
-            <form className='absolute inset-x-0 bottom-0 h-1/6'>
+            <div className='border-2 border-black h-5/6 overflow-y-scroll'>
+                {messages.map((msg, index) => (
+                    <div key={index} className={`message ${msg.fromSelf ? 'self' : 'other'}`}>
+                        {msg.username}: {msg.msg}
+                    </div>
+                ))}
+            </div>
+            <form className='absolute inset-x-0 bottom-0 h-1/6' onSubmit={handleSendMessage}>
                 <label htmlFor="chat" className="sr-only">Your message</label>
                 <div className="h-full flex items-center px-3 py-2 bg-gray-50 dark:bg-gray-700">
                     <button type="button" className="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
@@ -24,8 +67,14 @@ export default function Chat({roomid}) {
                         </svg>
                         <span className="sr-only">Add emoji</span>
                     </button>
-                    <textarea id="chat" className="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your message..."></textarea>
-                        <button type="submit" className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                    <textarea
+                        onChange={handleChange}
+                        value={message}
+                        id="chat"
+                        className="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Your message..."
+                    ></textarea>
+                    <button type="submit" className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
                         <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                             <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
                         </svg>
@@ -34,5 +83,5 @@ export default function Chat({roomid}) {
                 </div>
             </form>
         </Container>
-    )
+    );
 }
