@@ -6,9 +6,3 @@ class Room:
     def getId(self):
         return self.roomId
     
-    def getVideo(self):
-        return self.currentVideo
-    
-    def updateVideo(self, video):
-        self.currentVideo = video
-    

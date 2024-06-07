@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import socket from "./videoService";
 import axios from "axios";
 
-
 const useSocketSetup = (id) => {
     const [room, setRoom] = useState(id);
     useEffect(() => {

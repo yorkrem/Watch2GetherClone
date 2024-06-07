@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-from flask import request, make_response
-from _init_ import create_app
-=======
 from flask import jsonify, request
 from firebase_admin import auth
 from _init_ import app #, db
->>>>>>> 1a1627f439c5d4f88eb7a3a1615f1189fdd26d14
 
 @app.route('/login', methods= ['POST'])
 def login():
@@ -24,10 +19,3 @@ def login():
 if __name__ == '__main__':  # specify your desired port number here
     app.run(host="0.0.0.0", port=5000)
 
-<<<<<<< HEAD
-
-
-if __name__ == '__main__':  # specify your desired port number here
-    app.run(host="0.0.0.0", port=5002)
-=======
->>>>>>> 1a1627f439c5d4f88eb7a3a1615f1189fdd26d14

@@ -4,13 +4,9 @@ flask-cors
 python-socketio==5.7.2
 eventlet
 pytest
-<<<<<<< HEAD
-=======
-flask_sqlalchemy
 greenlet==3.0.3 
 psycopg2-binary==2.9.9 
 typing-extensions==4.11.0
 firebase-admin
 python-dotenv
 PyGithub
->>>>>>> 1a1627f439c5d4f88eb7a3a1615f1189fdd26d14

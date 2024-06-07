@@ -29,6 +29,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5002:5002
+    depends_on:
+      - redis
     networks:
       - client
   
@@ -41,7 +43,15 @@ services:
       - 5003:5003
     networks:
     - client
+    - db-network
 
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+    - db-network
 
   kong:
      container_name: kong_gateway
