@@ -1,6 +1,6 @@
 from authorization.authorization import check_auth
 from flask import request, make_response
-from _init_ import create_app
+from room_init_ import create_app
 from objects.Room import Room
 from managers.RoomManager import RoomManager
 
