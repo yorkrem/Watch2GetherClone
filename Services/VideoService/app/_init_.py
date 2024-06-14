@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from flask_cors import CORS
-from events import socketio
+from Services.VideoService.app.socketio_handlers import socketio
 
 def create_app():
     app = Flask(__name__)

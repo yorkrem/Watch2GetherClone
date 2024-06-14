@@ -1,4 +1,3 @@
-import json
 from _init_ import rcache
 
 class RoomManager:
