@@ -22,6 +22,6 @@ def create_app():
     app.config["SECRET_KEY"] = "secret"
     return app
 
-cred = credentials.Certificate(firebase_config_json)
+#cred = credentials.Certificate(firebase_config_json)
 #firebase_admin.initialize_app(cred)
 rcache = redis.Redis(host='localhost', port=6379, decode_responses=True)
