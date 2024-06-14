@@ -41,7 +41,7 @@ def test_get_room_existing(mock_rcache):
 
 def test_get_room_not_found(mock_rcache):
     room_manager = RoomManager()
-    mock_rcache.hgetall.return_value = None
+    mock_rcache.hgetall.return_value = None  # Simulate room not found
     
     result = room_manager.getRoom('room1')
     
@@ -57,12 +57,11 @@ def test_update_room_existing(mock_rcache):
 
 def test_update_room_not_found(mock_rcache):
     room_manager = RoomManager()
-    mock_rcache.hgetall.return_value = None
+    mock_rcache.hgetall.return_value = None  # Simulate room not found
     
     room_manager.updateRoom('room1', 'new_video')
     
     assert mock_rcache.hset.call_count == 0
-
 
 if __name__ == "__main__":
     pytest.main()

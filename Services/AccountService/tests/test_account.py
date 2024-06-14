@@ -28,6 +28,8 @@ def test_login_missing_id_token(client):
     # Assert response content if it exists
     if response.data:
         assert json.loads(response.data) == {'error': 'ID token is missing'}
+    else:
+        assert False, "Response data is None"
 
 def test_login_invalid_id_token(client):
     # Mock request data with invalid idToken
@@ -44,7 +46,8 @@ def test_login_invalid_id_token(client):
         # Assert response content if it exists
         if response.data:
             assert json.loads(response.data) == {'error': 'Invalid token'}
-
+        else:
+            assert False, "Response data is None"
 
 if __name__ == "__main__":
     pytest.main()
