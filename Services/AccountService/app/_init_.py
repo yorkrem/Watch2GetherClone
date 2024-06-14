@@ -4,10 +4,16 @@ from firebase_admin import credentials, auth
 import firebase_admin
 from dotenv import load_dotenv
 
-load_dotenv()
-firebase_config = os.getenv('FIREBASE_CONFIG')
+if 'GITHUB_ACTIONS' in os.environ:
+    # Running in GitHub Actions, load Firebase config from secret
+    firebase_config = os.getenv('FIREBASE_CONFIG')
+else:
+    # Running locally, load Firebase config from .env file
+    from dotenv import load_dotenv
+    load_dotenv()
+    firebase_config = os.getenv('FIREBASE_CONFIG')
+    
 firebase_config_json = json.loads(firebase_config)
-#db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
