@@ -1,4 +1,4 @@
-from .._init_ import rcache
+from _init_ import rcache
 
 class RoomManager:
         
