@@ -1,5 +1,6 @@
 import pytest
 from unittest.mock import MagicMock, patch
+import json
 import sys
 import os
 
@@ -61,6 +62,7 @@ def test_update_room_not_found(mock_rcache):
     room_manager.updateRoom('room1', 'new_video')
     
     assert mock_rcache.hset.call_count == 0
+
 
 if __name__ == "__main__":
     pytest.main()
