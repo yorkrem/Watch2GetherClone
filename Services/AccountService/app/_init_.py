@@ -5,8 +5,8 @@ import firebase_admin
 from dotenv import load_dotenv
 
 load_dotenv()
-firebase_config = os.getenv('FIREBASE_CONFIG')
-firebase_config_json = json.loads(firebase_config)
+#firebase_config = os.getenv('FIREBASE_CONFIG')
+#firebase_config_json = json.loads(firebase_config)
 #db = SQLAlchemy()
 
 def create_app():
@@ -17,5 +17,5 @@ def create_app():
     return app
 
 app = create_app()
-cred = credentials.Certificate(firebase_config_json)
+cred = credentials.Certificate("../../credentials/firebase_config.json")
 firebase_admin.initialize_app(cred)

@@ -2,5 +2,5 @@ venv/
 vscode/
 node_modules
 .next/
-credentials/
+firebase_config.json
 .env
