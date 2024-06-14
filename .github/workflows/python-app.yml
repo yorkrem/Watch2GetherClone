@@ -35,7 +35,9 @@ jobs:
       run: |
         cd Services
         echo "$FIREBASE_CONFIG" > firebase_config.json  # Write to a temporary file
+        ls -l  # List files in current directory to verify firebase_config.json exists
         cat firebase_config.json  # For debugging, to ensure content is correct
+
 
     - name: Lint with flake8
       run: |
