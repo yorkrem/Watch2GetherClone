@@ -1,4 +1,4 @@
-from app._init_ import rcache
+from app import rcache
 
 class RoomManager:
         
