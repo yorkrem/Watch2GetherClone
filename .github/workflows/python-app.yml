@@ -33,6 +33,7 @@ jobs:
       env:
         FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}  # Retrieve the secret here
       run: |
+        cd Services
         echo "$FIREBASE_CONFIG" > firebase_config.json  # Write to a temporary file
         cat firebase_config.json  # For debugging, to ensure content is correct
 
