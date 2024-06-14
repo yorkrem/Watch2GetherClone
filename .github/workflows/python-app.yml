@@ -28,6 +28,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         pip install -r requirements.txt
+        
+    - name: Set Firebase Config
+      env:
+        FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}  # Retrieve the secret here
+      run: |
+        echo "$FIREBASE_CONFIG" > firebase_config.json  # Write to a temporary file
+        cat firebase_config.json  # For debugging, to ensure content is correct
 
     - name: Lint with flake8
       run: |
