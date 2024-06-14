@@ -1,4 +1,44 @@
-# test_basic.py
+import pytest
+from flask import Flask, jsonify, json
+from unittest.mock import patch, MagicMock
+from firebase_admin import auth
+import os
+import sys
 
-def test_example():
-    assert 1 + 1 == 2
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'app')))
+from app import app
+
+@pytest.fixture
+def client():
+    """Fixture to create a test client for the Flask application."""
+    app.config['TESTING'] = True
+    with app.test_client() as client:
+        yield client
+
+def test_login_missing_id_token(client):
+    # Mock request data with missing idToken
+    mock_request_data = {}
+    
+    # Make POST request to /login endpoint
+    response = client.post('/login', data=json.dumps(mock_request_data), content_type='application/json')
+    
+    # Assert response status code and content
+    assert response.status_code == 400
+    assert json.loads(response.data) == {'error': 'ID token is missing'}
+
+def test_login_invalid_id_token(client):
+    # Mock request data with invalid idToken
+    mock_request_data = {'idToken': 'invalid_token'}
+    
+    # Mocking verify_id_token to raise an exception
+    with patch('firebase_admin.auth.verify_id_token', side_effect=Exception('Invalid token')):
+        # Make POST request to /login endpoint
+        response = client.post('/login', data=json.dumps(mock_request_data), content_type='application/json')
+        
+        # Assert response status code and content
+        assert response.status_code == 401
+        assert json.loads(response.data) == {'error': 'Invalid token'}
+
+if __name__ == "__main__":
+    pytest.main()
+

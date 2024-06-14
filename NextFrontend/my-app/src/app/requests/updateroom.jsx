@@ -1,9 +1,10 @@
 import axios from "axios";
 
-export const updateroom = (roomid, youtubelink) => {
+export const updateroom = (roomid, youtubelink, chatmessages) => {
     const data = {
         roomid: roomid,
-        currentvideo: youtubelink
+        currentvideo: youtubelink,
+        chatmessages: chatmessages
     };
     axios.put('http://localhost:8000/room/update', data, {
         headers: {

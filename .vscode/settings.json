@@ -1,0 +1,7 @@
+{
+    "python.analysis.extraPaths": [
+        "./Services/VideoService/app",
+        "./Services/RoomService/app/managers",
+        "./Services/RoomService/app/objects"
+    ]
+}
