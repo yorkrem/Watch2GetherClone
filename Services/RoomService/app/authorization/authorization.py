@@ -1,5 +1,6 @@
 from functools import wraps
 from flask import request, jsonify
+from Services.AccountService.app._init_ import firebase_app
 from firebase_admin import auth
 
 def check_auth(f):
@@ -10,7 +11,7 @@ def check_auth(f):
 
         token = request.headers['Authorization'].split('Bearer ')[-1]
         try:
-            decoded_token = auth.verify_id_token(token)
+            decoded_token = auth.verify_id_token(token, app=firebase_app)
             request.user = decoded_token
         except Exception as e:
             return jsonify({'error': str(e)}), 403

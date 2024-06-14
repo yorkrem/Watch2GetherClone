@@ -24,4 +24,4 @@ def create_app():
 
 app = create_app()
 cred = credentials.Certificate(firebase_config_json)
-firebase_admin.initialize_app(cred, "account")
+firebase_admin.initialize_app(cred)
